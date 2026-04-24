@@ -15,13 +15,13 @@ function formatDate(iso) {
 }
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   .pl-root {
     --bg-cream: #F3EFE7; --bg-green: #BDD3A8; --brand-dark: #2E2D2B;
     --line: 2px solid #2E2D2B;
-    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    font-family: 'Pretendard', -apple-system, sans-serif;
     background: var(--bg-cream); color: var(--brand-dark);
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
