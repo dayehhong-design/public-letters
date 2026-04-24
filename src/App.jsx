@@ -16,6 +16,12 @@ function formatDate(iso) {
 
 const styles = `
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+@font-face {
+  font-family: 'HSZandari';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/HSZandariM.woff') format('woff');
+  font-weight: normal;
+}
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   .pl-root {
@@ -75,7 +81,7 @@ const styles = `
   }
 
   .pl-logo {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'HSZandari', sans-serif;
     letter-spacing: 0.02em; text-transform: uppercase;
   }
   .pl-header {
@@ -88,7 +94,7 @@ const styles = `
   }
   .pl-recipient-section { border-bottom: var(--line); padding-bottom: 1rem; margin-bottom: 1.25rem; }
   .pl-recipient-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'HSZandari', sans-serif;
     line-height: 0.9; letter-spacing: 0.02em; margin-top: 0.4rem;
   }
   .pl-textarea {
