@@ -326,7 +326,7 @@ export default function App() {
         {/* 왼쪽 / 상단 — 편지 작성 */}
         <main className="pl-left">
           <header className="pl-header">
-            <div className="pl-logo">주인으로서<br />국민연금에게<br />보내는 편지</div>
+            <div className="pl-logo">국민연금에게<br />보내는 편지</div>
             <span className="pl-label">Write</span>
           </header>
           <section className="pl-composer">
