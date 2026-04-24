@@ -73,10 +73,11 @@ const styles = `
   }
 
   .pl-logo {
-    font-family: 'Pretendard', sans-serif;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-  }
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
   .pl-header {
     display: flex; justify-content: space-between; align-items: flex-start;
     padding-bottom: 1.25rem;
