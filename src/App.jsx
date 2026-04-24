@@ -344,7 +344,7 @@ export default function App() {
           <section className="pl-composer">
             <textarea
               className="pl-textarea"
-              placeholder="당신의 이야기를 적어주세요. 연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다..."
+              placeholder="당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다."
               value={text} onChange={e => setText(e.target.value)} spellCheck={false}
             />
 
