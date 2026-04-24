@@ -79,9 +79,9 @@ const styles = `
   text-align: left;
 }
   .pl-header {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    padding-bottom: 1.25rem;
-  }
+  display: flex; justify-content: flex-start; align-items: flex-start;
+  padding-bottom: 1.25rem;
+}
   .pl-label {
     font-size: 0.7rem; text-transform: uppercase;
     letter-spacing: 0.12em; font-weight: 700;
