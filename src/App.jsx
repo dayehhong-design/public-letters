@@ -332,22 +332,23 @@ export default function App() {
       <style>{styles}</style>
       <div className="pl-root">
 
-        <main className="pl-left">
-          <header className="pl-header">
-            <div className="pl-logo">From.<br />국민</div>
-            
-          </header>
-          <section className="pl-composer">
-            <div className="pl-recipient-section">
-              <span className="pl-label">To</span>
-              <h1 className="pl-recipient-title">국민연금</h1>
-            </div>
-            <textarea
+        <header className="pl-header">
+  <div className="pl-logo">From.<br />국민</div>
+</header>
+<section className="pl-composer">
+  <textarea ... />
+  <div className="pl-char-count">{text.length} 자</div>
+  <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
+    <div style={{ textAlign: "right" }}>
+      <span className="pl-label">To</span>
+      <h1 className="pl-recipient-title">국민연금</h1>
+    </div>
+  </div>
               className="pl-textarea"
               placeholder="당신의 이야기를 적어주세요. 연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 기록됩니다..."
               value={text} onChange={e => setText(e.target.value)} spellCheck={false}
             />
-            <div className="pl-char-count">{text.length} 자</div>
+            
             <div className="pl-footer">
               <div className="pl-footer-left">
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
