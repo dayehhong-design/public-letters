@@ -335,7 +335,7 @@ export default function App() {
         <main className="pl-left">
           <header className="pl-header">
             <div className="pl-logo">From.<br />국민</div>
-            <span className="pl-label">Write</span>
+            
           </header>
           <section className="pl-composer">
             <div className="pl-recipient-section">
