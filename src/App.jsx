@@ -7,7 +7,6 @@ const TAG_COLORS = {
   "응원": "#c4e8d5", "우려": "#e8c4c4", "제안": "#e8e4c4",
 };
 
-// 여기서 관리자 비밀번호 바꾸세요
 const ADMIN_PASSWORD = "NPSCA2026!";
 
 function formatDate(iso) {
@@ -18,46 +17,90 @@ function formatDate(iso) {
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;700;900&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { overflow: hidden; }
 
   .pl-root {
     --bg-cream: #F3EFE7; --bg-green: #BDD3A8; --brand-dark: #2E2D2B;
     --line: 2px solid #2E2D2B;
     font-family: 'Noto Sans KR', -apple-system, sans-serif;
-    display: flex; height: 100vh; overflow: hidden;
     background: var(--bg-cream); color: var(--brand-dark);
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
   }
-  .pl-left {
-    flex: 1; border-right: var(--line); padding: 2rem 2.5rem;
-    display: flex; flex-direction: column; background: var(--bg-cream); min-width: 0;
+
+  /* 데스크탑: 좌우 2컬럼 */
+  @media (min-width: 768px) {
+    body { overflow: hidden; }
+    .pl-root { display: flex; height: 100vh; overflow: hidden; }
+    .pl-left {
+      flex: 1; border-right: var(--line); padding: 2rem 2.5rem;
+      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+    }
+    .pl-right {
+      flex: 1; overflow-y: auto; background: var(--bg-green);
+      display: flex; flex-direction: column;
+    }
+    .pl-logo { font-size: 3.2rem; line-height: 0.85; }
+    .pl-recipient-title { font-size: 4rem; }
+    .pl-composer { flex: 1; display: flex; flex-direction: column; margin-top: 0.5rem; }
+    .pl-textarea { min-height: 140px; flex: 1; }
+    .pl-footer { flex-direction: row; align-items: flex-start; }
+    .pl-card { grid-template-columns: 1fr 2.5fr; }
   }
-  .pl-right {
-    flex: 1; overflow-y: auto; background: var(--bg-green);
-    display: flex; flex-direction: column; min-width: 0;
+
+  /* 모바일: 위아래 1컬럼 */
+  @media (max-width: 767px) {
+    body { overflow-x: hidden; }
+    .pl-root { display: flex; flex-direction: column; }
+    .pl-left {
+      padding: 1.5rem 1.25rem 1.25rem;
+      border-bottom: var(--line);
+      display: flex; flex-direction: column;
+    }
+    .pl-right {
+      background: var(--bg-green);
+      display: flex; flex-direction: column;
+    }
+    .pl-logo { font-size: 2.2rem; line-height: 0.85; }
+    .pl-recipient-title { font-size: 3rem; }
+    .pl-composer { display: flex; flex-direction: column; margin-top: 0.5rem; }
+    .pl-textarea { min-height: 120px; }
+    .pl-footer { flex-direction: column; gap: 1rem; }
+    .pl-footer-row { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; }
+    .pl-send-btn-wrap { display: flex; justify-content: flex-end; }
+    .pl-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem 1.25rem; }
+    .pl-gallery-header { padding: 1.25rem; }
+    .pl-admin-bar { padding: 0.75rem 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
+    .pl-delete-btn { top: 1rem; right: 1rem; }
+    .pl-filter-group { flex-wrap: wrap; }
   }
+
   .pl-logo {
-    font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem;
-    letter-spacing: 0.02em; line-height: 0.85; text-transform: uppercase;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em; text-transform: uppercase;
   }
-  .pl-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; }
-  .pl-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
-  .pl-recipient-section { border-bottom: var(--line); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+  .pl-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 1.25rem;
+  }
+  .pl-label {
+    font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.12em; font-weight: 700;
+  }
+  .pl-recipient-section { border-bottom: var(--line); padding-bottom: 1rem; margin-bottom: 1.25rem; }
   .pl-recipient-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem;
+    font-family: 'Bebas Neue', sans-serif;
     line-height: 0.9; letter-spacing: 0.02em; margin-top: 0.4rem;
   }
   .pl-textarea {
-    width: 100%; flex: 1; background: transparent; border: none; resize: none;
+    width: 100%; background: transparent; border: none; resize: none;
     color: var(--brand-dark); font-family: 'Noto Sans KR', sans-serif;
-    font-size: 1.05rem; line-height: 1.65; padding: 0; min-height: 120px;
+    font-size: 1rem; line-height: 1.65; padding: 0;
   }
   .pl-textarea:focus { outline: none; }
   .pl-textarea::placeholder { color: var(--brand-dark); opacity: 0.38; }
-  .pl-composer { flex: 1; display: flex; flex-direction: column; margin-top: 0.5rem; }
   .pl-footer {
     border-top: var(--line); padding-top: 1.25rem; margin-top: 1rem;
-    display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+    display: flex; justify-content: space-between; gap: 0.75rem;
   }
   .pl-footer-left { display: flex; flex-direction: column; gap: 0.75rem; }
   .pl-input-line {
@@ -87,24 +130,23 @@ const styles = `
   .pl-pill.solid:hover { background-color: transparent; color: var(--brand-dark); }
   .pl-pill.right-active { background-color: var(--brand-dark); color: var(--bg-green); }
   .pl-pill.admin-active { background-color: #c0392b; color: white; border-color: #c0392b; }
-  .pl-pill.admin-active:hover { background-color: #922b21; }
   .pl-pill:disabled { opacity: 0.4; cursor: not-allowed; }
   .pl-gallery-header {
     position: sticky; top: 0; background: var(--bg-green);
     padding: 1.5rem 2.5rem; border-bottom: var(--line);
     display: flex; justify-content: space-between; align-items: center; z-index: 10;
   }
-  .pl-filter-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .pl-filter-group { display: flex; gap: 0.4rem; }
   .pl-admin-bar {
     background: #2E2D2B; color: #F3EFE7;
     padding: 0.75rem 2.5rem; display: flex; align-items: center;
-    justify-content: space-between; font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase; gap: 1rem;
+    justify-content: space-between; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; gap: 0.5rem;
   }
   .pl-admin-btn {
     background: transparent; border: 1.5px solid rgba(243,239,231,0.5);
-    color: #F3EFE7; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
-    padding: 0.3rem 0.8rem; cursor: pointer; text-transform: uppercase;
+    color: #F3EFE7; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem; cursor: pointer; text-transform: uppercase;
     transition: all 0.1s; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap;
   }
   .pl-admin-btn:hover { background: rgba(243,239,231,0.15); }
@@ -112,19 +154,19 @@ const styles = `
   .pl-admin-btn.exit { border-color: #e8a0a0; color: #e8a0a0; }
   .pl-card {
     padding: 2.5rem; border-bottom: var(--line);
-    display: grid; grid-template-columns: 1fr 2.5fr; gap: 1.5rem;
+    display: grid; gap: 1.5rem;
     transition: background-color 0.15s; position: relative;
   }
   .pl-card:hover { background: rgba(46,45,43,0.04); }
   .pl-card.new-card { animation: fadeSlide 0.4s ease; }
   @keyframes fadeSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-  .pl-card-meta { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .pl-card-meta { display: flex; flex-direction: row; gap: 1rem; align-items: center; flex-wrap: wrap; }
   .pl-tag-badge {
     display: inline-block; border: var(--line); padding: 0.3rem 0.8rem;
     font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
   }
-  .pl-card-content { display: flex; flex-direction: column; gap: 1.25rem; }
-  .pl-letter-text { font-size: 1.05rem; line-height: 1.65; white-space: pre-wrap; }
+  .pl-card-content { display: flex; flex-direction: column; gap: 1rem; }
+  .pl-letter-text { font-size: 1rem; line-height: 1.7; white-space: pre-wrap; }
   .pl-signature { font-size: 0.9rem; font-weight: 700; text-align: right; text-transform: uppercase; letter-spacing: 0.04em; }
   .pl-count { font-size: 0.7rem; letter-spacing: 0.08em; font-weight: 700; opacity: 0.5; }
   .pl-empty { padding: 4rem 2.5rem; text-align: center; opacity: 0.4; font-size: 0.9rem; line-height: 1.7; }
@@ -146,14 +188,18 @@ const styles = `
   }
   @keyframes toastIn  { from { opacity: 0; bottom: 1rem; } to { opacity: 1; bottom: 2rem; } }
   @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
-  .pl-char-count { font-size: 0.7rem; opacity: 0.35; font-weight: 600; letter-spacing: 0.06em; align-self: flex-end; margin-bottom: 0.25rem; }
+  .pl-char-count {
+    font-size: 0.7rem; opacity: 0.35; font-weight: 600;
+    letter-spacing: 0.06em; text-align: right; margin-bottom: 0.25rem;
+  }
   .pl-modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center; padding: 1rem;
   }
   .pl-modal {
     background: var(--bg-cream); border: 2px solid var(--brand-dark);
-    padding: 2rem; width: 320px; display: flex; flex-direction: column; gap: 1.25rem;
+    padding: 2rem; width: 100%; max-width: 320px;
+    display: flex; flex-direction: column; gap: 1.25rem;
   }
   .pl-modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; }
   .pl-modal-input {
@@ -167,6 +213,11 @@ const styles = `
   .pl-right::-webkit-scrollbar { width: 6px; }
   .pl-right::-webkit-scrollbar-track { background: var(--bg-green); }
   .pl-right::-webkit-scrollbar-thumb { background: var(--brand-dark); }
+
+  /* 데스크탑에서 card-meta 세로로 */
+  @media (min-width: 768px) {
+    .pl-card-meta { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  }
 `;
 
 export default function App() {
@@ -272,10 +323,10 @@ export default function App() {
       <style>{styles}</style>
       <div className="pl-root">
 
-        {/* 왼쪽 — 편지 작성 */}
+        {/* 왼쪽 / 상단 — 편지 작성 */}
         <main className="pl-left">
           <header className="pl-header">
-            <div className="pl-logo">Public<br />Letters</div>
+            <div className="pl-logo">주인으로서<br />국민연금에게<br />보내는 편지</div>
             <span className="pl-label">Write</span>
           </header>
           <section className="pl-composer">
@@ -303,23 +354,23 @@ export default function App() {
                   </select>
                 </div>
               </div>
-              <button className="pl-pill solid" onClick={handleSend} disabled={sending}>
-                {sending ? "전송 중..." : "Send letter"}
-              </button>
+              <div style={{ display: "flex", alignItems: "flex-end" }}>
+                <button className="pl-pill solid" onClick={handleSend} disabled={sending}>
+                  {sending ? "전송 중..." : "Send letter"}
+                </button>
+              </div>
             </div>
           </section>
         </main>
 
-        {/* 오른쪽 — 편지 목록 */}
+        {/* 오른쪽 / 하단 — 편지 목록 */}
         <aside className="pl-right">
-
-          {/* 관리자 상태바 */}
           {isAdmin && (
             <div className="pl-admin-bar">
-              <span>관리자 모드 — 편지 우측 상단 [삭제] 클릭</span>
-              <div style={{ display: "flex", gap: "0.5rem" }}>
+              <span>관리자 모드</span>
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
                 <button className="pl-admin-btn csv" onClick={exportCSV}>
-                  CSV 다운로드 ({letters.length}개)
+                  CSV ({letters.length}개)
                 </button>
                 <button className="pl-admin-btn exit" onClick={() => { setIsAdmin(false); showToast("관리자 모드 종료"); }}>
                   종료
@@ -343,7 +394,7 @@ export default function App() {
               <button
                 className={`pl-pill ${isAdmin ? "admin-active" : ""}`}
                 style={{ fontSize: "0.72rem", padding: "0.45rem 0.8rem" }}
-                onClick={() => isAdmin ? (setIsAdmin(false)) : setShowAdminModal(true)}>
+                onClick={() => isAdmin ? setIsAdmin(false) : setShowAdminModal(true)}>
                 {isAdmin ? "Admin ON" : "Admin"}
               </button>
             </div>
@@ -360,13 +411,10 @@ export default function App() {
                   <button className="pl-delete-btn" onClick={() => handleDelete(letter.id)}>삭제</button>
                 )}
                 <div className="pl-card-meta">
-                  <span className="pl-label">Date</span>
-                  <div style={{ fontSize: "0.9rem", fontWeight: 600 }}>{formatDate(letter.created_at)}</div>
-                  <div style={{ marginTop: "0.5rem" }}>
-                    <span className="pl-tag-badge" style={{ background: TAG_COLORS[letter.tag] || "#e8e4c4" }}>
-                      {letter.tag}
-                    </span>
-                  </div>
+                  <div style={{ fontSize: "0.85rem", fontWeight: 600 }}>{formatDate(letter.created_at)}</div>
+                  <span className="pl-tag-badge" style={{ background: TAG_COLORS[letter.tag] || "#e8e4c4" }}>
+                    {letter.tag}
+                  </span>
                 </div>
                 <div className="pl-card-content">
                   <p className="pl-letter-text">{letter.text}</p>
@@ -379,7 +427,6 @@ export default function App() {
 
         {toast && <div className="pl-toast">{toast}</div>}
 
-        {/* 관리자 로그인 모달 */}
         {showAdminModal && (
           <div className="pl-modal-overlay" onClick={() => { setShowAdminModal(false); setPwInput(""); setPwError(false); }}>
             <div className="pl-modal" onClick={e => e.stopPropagation()}>
