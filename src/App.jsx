@@ -17,11 +17,6 @@ function formatDate(iso) {
 const styles = `
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-@font-face {
-  font-family: 'HSZandari';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/HSZandariM.woff') format('woff');
-  font-weight: normal;
-}
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   .pl-root {
@@ -33,7 +28,7 @@ const styles = `
     min-height: 100vh;
   }
 
-  /* 데스크탑: 좌우 2컬럼 */
+  /* 데스크탑 */
   @media (min-width: 768px) {
     body { overflow: hidden; }
     .pl-root { display: flex; height: 100vh; overflow: hidden; }
@@ -45,15 +40,16 @@ const styles = `
       flex: 1; overflow-y: auto; background: var(--bg-green);
       display: flex; flex-direction: column;
     }
-    .pl-logo { font-size: 3.2rem; line-height: 0.85; }
+    .pl-logo { font-size: 3.2rem; line-height: 1; }
     .pl-recipient-title { font-size: 4rem; }
     .pl-composer { flex: 1; display: flex; flex-direction: column; margin-top: 0.5rem; }
     .pl-textarea { min-height: 140px; flex: 1; }
     .pl-footer { flex-direction: row; align-items: flex-start; }
     .pl-card { grid-template-columns: 1fr 2.5fr; }
+    .pl-card-meta { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   }
 
-  /* 모바일: 위아래 1컬럼 */
+  /* 모바일 */
   @media (max-width: 767px) {
     body { overflow-x: hidden; }
     .pl-root { display: flex; flex-direction: column; }
@@ -62,27 +58,24 @@ const styles = `
       border-bottom: var(--line);
       display: flex; flex-direction: column;
     }
-    .pl-right {
-      background: var(--bg-green);
-      display: flex; flex-direction: column;
-    }
-    .pl-logo { font-size: 2.2rem; line-height: 0.85; }
+    .pl-right { background: var(--bg-green); display: flex; flex-direction: column; }
+    .pl-logo { font-size: 2.4rem; line-height: 1; }
     .pl-recipient-title { font-size: 3rem; }
     .pl-composer { display: flex; flex-direction: column; margin-top: 0.5rem; }
     .pl-textarea { min-height: 120px; }
     .pl-footer { flex-direction: column; gap: 1rem; }
-    .pl-footer-row { display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; }
-    .pl-send-btn-wrap { display: flex; justify-content: flex-end; }
     .pl-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem 1.25rem; }
     .pl-gallery-header { padding: 1.25rem; }
     .pl-admin-bar { padding: 0.75rem 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
     .pl-delete-btn { top: 1rem; right: 1rem; }
     .pl-filter-group { flex-wrap: wrap; }
+    .pl-card-meta { flex-direction: row; align-items: center; gap: 1rem; flex-wrap: wrap; }
   }
 
   .pl-logo {
-    font-family: 'HSZandari', sans-serif;
-    letter-spacing: 0.02em; text-transform: uppercase;
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
   .pl-header {
     display: flex; justify-content: space-between; align-items: center;
@@ -91,16 +84,18 @@ const styles = `
   .pl-label {
     font-size: 0.7rem; text-transform: uppercase;
     letter-spacing: 0.12em; font-weight: 700;
+    font-family: 'Pretendard', sans-serif;
   }
   .pl-recipient-section { border-bottom: var(--line); padding-bottom: 1rem; margin-bottom: 1.25rem; }
   .pl-recipient-title {
-    font-family: 'HSZandari', sans-serif;
-    line-height: 0.9; letter-spacing: 0.02em; margin-top: 0.4rem;
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 900;
+    line-height: 1; letter-spacing: -0.02em; margin-top: 0.4rem;
   }
   .pl-textarea {
     width: 100%; background: transparent; border: none; resize: none;
-    color: var(--brand-dark); font-family: 'Noto Sans KR', sans-serif;
-    font-size: 1rem; line-height: 1.65; padding: 0;
+    color: var(--brand-dark); font-family: 'Pretendard', sans-serif;
+    font-size: 1rem; line-height: 1.75; padding: 0;
   }
   .pl-textarea:focus { outline: none; }
   .pl-textarea::placeholder { color: var(--brand-dark); opacity: 0.38; }
@@ -111,14 +106,14 @@ const styles = `
   .pl-footer-left { display: flex; flex-direction: column; gap: 0.75rem; }
   .pl-input-line {
     background: transparent; border: none; border-bottom: var(--line);
-    color: var(--brand-dark); font-family: 'Noto Sans KR', sans-serif;
+    color: var(--brand-dark); font-family: 'Pretendard', sans-serif;
     font-size: 0.95rem; font-weight: 600; padding: 0.3rem 0; width: 130px;
   }
   .pl-input-line:focus { outline: none; border-bottom-width: 4px; }
   .pl-input-line::placeholder { color: var(--brand-dark); opacity: 0.38; font-weight: 400; }
   .pl-tag-select {
     background: transparent; border: none; border-bottom: var(--line);
-    color: var(--brand-dark); font-family: 'Noto Sans KR', sans-serif;
+    color: var(--brand-dark); font-family: 'Pretendard', sans-serif;
     font-size: 0.85rem; font-weight: 600; padding: 0.3rem 0; width: 130px;
     cursor: pointer; appearance: none; -webkit-appearance: none;
   }
@@ -126,7 +121,7 @@ const styles = `
   .pl-pill {
     display: inline-flex; align-items: center; justify-content: center;
     border: var(--line); padding: 0.45rem 1.1rem;
-    font-family: 'Noto Sans KR', sans-serif; font-size: 0.8rem; font-weight: 700;
+    font-family: 'Pretendard', sans-serif; font-size: 0.8rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.05em;
     background: transparent; color: var(--brand-dark); cursor: pointer;
     transition: background-color 0.1s, color 0.1s; border-radius: 0; white-space: nowrap;
@@ -148,12 +143,13 @@ const styles = `
     padding: 0.75rem 2.5rem; display: flex; align-items: center;
     justify-content: space-between; font-size: 0.72rem; font-weight: 700;
     letter-spacing: 0.08em; text-transform: uppercase; gap: 0.5rem;
+    font-family: 'Pretendard', sans-serif;
   }
   .pl-admin-btn {
     background: transparent; border: 1.5px solid rgba(243,239,231,0.5);
     color: #F3EFE7; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
     padding: 0.3rem 0.7rem; cursor: pointer; text-transform: uppercase;
-    transition: all 0.1s; font-family: 'Noto Sans KR', sans-serif; white-space: nowrap;
+    transition: all 0.1s; font-family: 'Pretendard', sans-serif; white-space: nowrap;
   }
   .pl-admin-btn:hover { background: rgba(243,239,231,0.15); }
   .pl-admin-btn.csv { border-color: #BDD3A8; color: #BDD3A8; }
@@ -166,14 +162,21 @@ const styles = `
   .pl-card:hover { background: rgba(46,45,43,0.04); }
   .pl-card.new-card { animation: fadeSlide 0.4s ease; }
   @keyframes fadeSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-  .pl-card-meta { display: flex; flex-direction: row; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .pl-card-meta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
   .pl-tag-badge {
     display: inline-block; border: var(--line); padding: 0.3rem 0.8rem;
     font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+    font-family: 'Pretendard', sans-serif;
   }
   .pl-card-content { display: flex; flex-direction: column; gap: 1rem; }
-  .pl-letter-text { font-size: 1rem; line-height: 1.7; white-space: pre-wrap; }
-  .pl-signature { font-size: 0.9rem; font-weight: 700; text-align: right; text-transform: uppercase; letter-spacing: 0.04em; }
+  .pl-letter-text {
+    font-size: 1rem; line-height: 1.75; white-space: pre-wrap;
+    font-family: 'Pretendard', sans-serif; font-weight: 400;
+  }
+  .pl-signature {
+    font-size: 0.9rem; font-weight: 700; text-align: right;
+    letter-spacing: 0.02em; font-family: 'Pretendard', sans-serif;
+  }
   .pl-count { font-size: 0.7rem; letter-spacing: 0.08em; font-weight: 700; opacity: 0.5; }
   .pl-empty { padding: 4rem 2.5rem; text-align: center; opacity: 0.4; font-size: 0.9rem; line-height: 1.7; }
   .pl-loading { padding: 4rem 2.5rem; text-align: center; opacity: 0.4; font-size: 0.9rem; }
@@ -182,7 +185,7 @@ const styles = `
     background: transparent; border: 1.5px solid #c0392b; color: #c0392b;
     font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
     padding: 0.25rem 0.6rem; cursor: pointer; text-transform: uppercase;
-    transition: all 0.1s; font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.1s; font-family: 'Pretendard', sans-serif;
   }
   .pl-delete-btn:hover { background: #c0392b; color: white; }
   .pl-toast {
@@ -191,12 +194,14 @@ const styles = `
     padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 600;
     letter-spacing: 0.04em; pointer-events: none; white-space: nowrap; z-index: 300;
     animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards;
+    font-family: 'Pretendard', sans-serif;
   }
   @keyframes toastIn  { from { opacity: 0; bottom: 1rem; } to { opacity: 1; bottom: 2rem; } }
   @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
   .pl-char-count {
     font-size: 0.7rem; opacity: 0.35; font-weight: 600;
-    letter-spacing: 0.06em; text-align: right; margin-bottom: 0.25rem;
+    letter-spacing: 0.04em; text-align: right; margin-bottom: 0.25rem;
+    font-family: 'Pretendard', sans-serif;
   }
   .pl-modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200;
@@ -207,11 +212,14 @@ const styles = `
     padding: 2rem; width: 100%; max-width: 320px;
     display: flex; flex-direction: column; gap: 1.25rem;
   }
-  .pl-modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; }
+  .pl-modal-title {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 1.5rem; font-weight: 900;
+  }
   .pl-modal-input {
     background: transparent; border: none; border-bottom: 2px solid var(--brand-dark);
     color: var(--brand-dark); font-size: 1rem; padding: 0.4rem 0; width: 100%;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', sans-serif;
   }
   .pl-modal-input:focus { outline: none; }
   .pl-modal-btns { display: flex; gap: 0.5rem; justify-content: flex-end; }
@@ -219,11 +227,6 @@ const styles = `
   .pl-right::-webkit-scrollbar { width: 6px; }
   .pl-right::-webkit-scrollbar-track { background: var(--bg-green); }
   .pl-right::-webkit-scrollbar-thumb { background: var(--brand-dark); }
-
-  /* 데스크탑에서 card-meta 세로로 */
-  @media (min-width: 768px) {
-    .pl-card-meta { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-  }
 `;
 
 export default function App() {
@@ -329,10 +332,9 @@ export default function App() {
       <style>{styles}</style>
       <div className="pl-root">
 
-        {/* 왼쪽 / 상단 — 편지 작성 */}
         <main className="pl-left">
           <header className="pl-header">
-            <div className="pl-logo">국민연금에게<br />보내는 편지</div>
+            <div className="pl-logo">From.<br />국민</div>
             <span className="pl-label">Write</span>
           </header>
           <section className="pl-composer">
@@ -369,7 +371,6 @@ export default function App() {
           </section>
         </main>
 
-        {/* 오른쪽 / 하단 — 편지 목록 */}
         <aside className="pl-right">
           {isAdmin && (
             <div className="pl-admin-bar">
