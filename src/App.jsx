@@ -43,7 +43,7 @@ const styles = `
     .pl-logo { font-size: 3.2rem; line-height: 1; }
     .pl-recipient-title { font-size: 4rem; }
     .pl-composer { flex: 1; display: flex; flex-direction: column; margin-top: 0.5rem; }
-    .pl-textarea { min-height: 140px; flex: 1; }
+    .pl-textarea { flex: 1; }
     .pl-footer { flex-direction: row; align-items: flex-start; }
     .pl-card { grid-template-columns: 1fr 2.5fr; }
     .pl-card-meta { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
@@ -60,7 +60,7 @@ const styles = `
     }
     .pl-right { background: var(--bg-green); display: flex; flex-direction: column; }
     .pl-logo { font-size: 2.4rem; line-height: 1; }
-    .pl-recipient-title { font-size: 3rem; }
+    .pl-recipient-title { font-size: 2.6rem; }
     .pl-composer { display: flex; flex-direction: column; margin-top: 0.5rem; }
     .pl-textarea { min-height: 120px; }
     .pl-footer { flex-direction: column; gap: 1rem; }
@@ -78,27 +78,32 @@ const styles = `
     letter-spacing: -0.02em;
   }
   .pl-header {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: space-between; align-items: flex-start;
     padding-bottom: 1.25rem;
   }
   .pl-label {
     font-size: 0.7rem; text-transform: uppercase;
     letter-spacing: 0.12em; font-weight: 700;
     font-family: 'Pretendard', sans-serif;
+    display: block;
   }
-  .pl-recipient-section { border-bottom: var(--line); padding-bottom: 1rem; margin-bottom: 1.25rem; }
   .pl-recipient-title {
     font-family: 'Pretendard', sans-serif;
     font-weight: 900;
-    line-height: 1; letter-spacing: -0.02em; margin-top: 0.4rem;
+    line-height: 1; letter-spacing: -0.02em; margin-top: 0.3rem;
+  }
+  .pl-to-block {
+    text-align: right;
   }
   .pl-textarea {
     width: 100%; background: transparent; border: none; resize: none;
     color: var(--brand-dark); font-family: 'Pretendard', sans-serif;
     font-size: 1rem; line-height: 1.75; padding: 0;
+    min-height: 80px;
   }
   .pl-textarea:focus { outline: none; }
   .pl-textarea::placeholder { color: var(--brand-dark); opacity: 0.38; }
+  .pl-composer { display: flex; flex-direction: column; }
   .pl-footer {
     border-top: var(--line); padding-top: 1.25rem; margin-top: 1rem;
     display: flex; justify-content: space-between; gap: 0.75rem;
@@ -169,30 +174,24 @@ const styles = `
     font-family: 'Pretendard', sans-serif;
   }
   .pl-card-content { display: flex; flex-direction: column; gap: 1rem; }
-  .pl-letter-text {
-    font-size: 1rem; line-height: 1.75; white-space: pre-wrap;
-    font-family: 'Pretendard', sans-serif; font-weight: 400;
-  }
-  .pl-signature {
-    font-size: 0.9rem; font-weight: 700; text-align: right;
-    letter-spacing: 0.02em; font-family: 'Pretendard', sans-serif;
-  }
+  .pl-letter-text { font-size: 1rem; line-height: 1.75; white-space: pre-wrap; font-family: 'Pretendard', sans-serif; }
+  .pl-signature { font-size: 0.9rem; font-weight: 700; text-align: right; font-family: 'Pretendard', sans-serif; }
   .pl-count { font-size: 0.7rem; letter-spacing: 0.08em; font-weight: 700; opacity: 0.5; }
   .pl-empty { padding: 4rem 2.5rem; text-align: center; opacity: 0.4; font-size: 0.9rem; line-height: 1.7; }
   .pl-loading { padding: 4rem 2.5rem; text-align: center; opacity: 0.4; font-size: 0.9rem; }
   .pl-delete-btn {
     position: absolute; top: 1.25rem; right: 1.25rem;
     background: transparent; border: 1.5px solid #c0392b; color: #c0392b;
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
-    padding: 0.25rem 0.6rem; cursor: pointer; text-transform: uppercase;
-    transition: all 0.1s; font-family: 'Pretendard', sans-serif;
+    font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.6rem;
+    cursor: pointer; text-transform: uppercase; transition: all 0.1s;
+    font-family: 'Pretendard', sans-serif;
   }
   .pl-delete-btn:hover { background: #c0392b; color: white; }
   .pl-toast {
     position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
     background: var(--brand-dark); color: var(--bg-cream);
     padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 600;
-    letter-spacing: 0.04em; pointer-events: none; white-space: nowrap; z-index: 300;
+    pointer-events: none; white-space: nowrap; z-index: 300;
     animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards;
     font-family: 'Pretendard', sans-serif;
   }
@@ -200,7 +199,7 @@ const styles = `
   @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
   .pl-char-count {
     font-size: 0.7rem; opacity: 0.35; font-weight: 600;
-    letter-spacing: 0.04em; text-align: right; margin-bottom: 0.25rem;
+    text-align: right; margin-bottom: 0.5rem;
     font-family: 'Pretendard', sans-serif;
   }
   .pl-modal-overlay {
@@ -212,10 +211,7 @@ const styles = `
     padding: 2rem; width: 100%; max-width: 320px;
     display: flex; flex-direction: column; gap: 1.25rem;
   }
-  .pl-modal-title {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 1.5rem; font-weight: 900;
-  }
+  .pl-modal-title { font-family: 'Pretendard', sans-serif; font-size: 1.5rem; font-weight: 900; }
   .pl-modal-input {
     background: transparent; border: none; border-bottom: 2px solid var(--brand-dark);
     color: var(--brand-dark); font-size: 1rem; padding: 0.4rem 0; width: 100%;
@@ -227,6 +223,7 @@ const styles = `
   .pl-right::-webkit-scrollbar { width: 6px; }
   .pl-right::-webkit-scrollbar-track { background: var(--bg-green); }
   .pl-right::-webkit-scrollbar-thumb { background: var(--brand-dark); }
+  .pl-divider { border: none; border-top: var(--line); margin: 1rem 0; }
 `;
 
 export default function App() {
@@ -332,32 +329,47 @@ export default function App() {
       <style>{styles}</style>
       <div className="pl-root">
 
-        <header className="pl-header">
-  <div className="pl-logo">From.<br />국민</div>
-</header>
-<section className="pl-composer">
-  <textarea ... />
-  <div className="pl-char-count">{text.length} 자</div>
-  <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
-    <div style={{ textAlign: "right" }}>
-      <span className="pl-label">To</span>
-      <h1 className="pl-recipient-title">국민연금</h1>
-    </div>
-  </div>
+        {/* 왼쪽 — 편지 작성 (봉투 레이아웃) */}
+        <main className="pl-left">
+
+          {/* From: 왼쪽 상단 */}
+          <header className="pl-header">
+            <div>
+              <span className="pl-label">From</span>
+              <div className="pl-logo">국민</div>
+            </div>
+          </header>
+
+          {/* 편지 본문 */}
+          <section className="pl-composer">
+            <textarea
               className="pl-textarea"
               placeholder="당신의 이야기를 적어주세요. 연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 기록됩니다..."
               value={text} onChange={e => setText(e.target.value)} spellCheck={false}
             />
-            
+
+            <div className="pl-char-count">{text.length} 자</div>
+
+            {/* To: 오른쪽 하단 (대각선 대칭) */}
+            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+              <div className="pl-to-block">
+                <span className="pl-label">To</span>
+                <div className="pl-recipient-title">국민연금</div>
+              </div>
+            </div>
+
+            <hr className="pl-divider" />
+
+            {/* 발신자 정보 + 전송 버튼 */}
             <div className="pl-footer">
               <div className="pl-footer-left">
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <span className="pl-label">From</span>
+                  <span className="pl-label">이름</span>
                   <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
                     value={from} onChange={e => setFrom(e.target.value)} />
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <span className="pl-label">Tag</span>
+                  <span className="pl-label">태그</span>
                   <select className="pl-tag-select" value={tag} onChange={e => setTag(e.target.value)}>
                     {TAGS.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
@@ -365,24 +377,21 @@ export default function App() {
               </div>
               <div style={{ display: "flex", alignItems: "flex-end" }}>
                 <button className="pl-pill solid" onClick={handleSend} disabled={sending}>
-                  {sending ? "전송 중..." : "Send letter"}
+                  {sending ? "전송 중..." : "편지 보내기"}
                 </button>
               </div>
             </div>
           </section>
         </main>
 
+        {/* 오른쪽 — 편지 목록 */}
         <aside className="pl-right">
           {isAdmin && (
             <div className="pl-admin-bar">
               <span>관리자 모드</span>
               <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                <button className="pl-admin-btn csv" onClick={exportCSV}>
-                  CSV ({letters.length}개)
-                </button>
-                <button className="pl-admin-btn exit" onClick={() => { setIsAdmin(false); showToast("관리자 모드 종료"); }}>
-                  종료
-                </button>
+                <button className="pl-admin-btn csv" onClick={exportCSV}>CSV ({letters.length}개)</button>
+                <button className="pl-admin-btn exit" onClick={() => { setIsAdmin(false); showToast("관리자 모드 종료"); }}>종료</button>
               </div>
             </div>
           )}
@@ -393,7 +402,7 @@ export default function App() {
               <div className="pl-count" style={{ marginTop: "0.25rem" }}>{filtered.length}편의 편지</div>
             </div>
             <div className="pl-filter-group">
-              {[{ key: "all", label: "All" }, { key: "recent", label: "Today" }].map(f => (
+              {[{ key: "all", label: "전체" }, { key: "recent", label: "오늘" }].map(f => (
                 <button key={f.key}
                   className={`pl-pill ${filter === f.key ? "right-active" : ""}`}
                   onClick={() => setFilter(f.key)}>{f.label}
