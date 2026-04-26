@@ -446,12 +446,12 @@ export default function App() {
           <div className="pl-tabs">
             <button
               className={`pl-tab ${mode === "letter" ? "active-letter" : ""}`}
-              onClick={() => setMode("letter")}>
+              onClick={() => { setMode("letter"); setFilter("letter"); }}>
               국민연금에<br />편지 쓰기
             </button>
             <button
               className={`pl-tab ${mode === "question" ? "active-question" : ""}`}
-              onClick={() => setMode("question")}>
+              onClick={() => { setMode("question"); setFilter("question"); }}>
               패널에게<br />질문하기
             </button>
           </div>
