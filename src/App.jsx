@@ -379,12 +379,12 @@ export default function App() {
         <aside className="pl-sidebar">
           <div className="pl-composer-card">
             <div className="pl-card-top">
-              <div>
-                <span className="pl-label">To</span>
-                <h2>국민연금</h2>
-              </div>
-              <div className="pl-postmark">KOREA<br />POST</div>
-            </div>
+  <div style={{ textAlign: "left" }}>
+    <span className="pl-label">To</span>
+    <h2>국민연금</h2>
+  </div>
+  <div className="pl-postmark">KOREA<br />POST</div>
+</div>
 
             {/* 커서 깜빡임 */}
             <div className="pl-textarea-wrap">
@@ -393,7 +393,7 @@ export default function App() {
               )}
               <textarea
                 className="pl-textarea"
-                placeholder={focused ? "당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다." : ""}
+                placeholder="당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다."
                 value={text}
                 onChange={e => setText(e.target.value)}
                 onFocus={() => setFocused(true)}
