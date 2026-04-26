@@ -11,6 +11,11 @@ function formatDate(iso) {
 
 const styles = `
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @font-face {
+  font-family: 'Eulyoo1945';
+  src: url('https://www.eulyoo.co.kr/css/font/Eulyoo1945-Regular.woff2') format('woff2');
+  font-weight: normal;
+}
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -54,12 +59,12 @@ const styles = `
   }
 
   .pl-event-badge {
-    background: var(--brand-dark); color: var(--bg-cream);
-    padding: 0.5rem 0.75rem;
-    font-size: 0.68rem; font-weight: 700;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    line-height: 1.5; text-align: center;
-  }
+  color: var(--brand-dark);
+  font-size: 0.85rem; font-weight: 900;
+letter-spacing: 0.04em; text-transform: uppercase;
+line-height: 1.5; text-align: center;
+opacity: 1;
+}
 
   .pl-tabs { display: flex; gap: 0; border: var(--line); overflow: hidden; }
   .pl-tab {
@@ -232,7 +237,7 @@ const styles = `
   .pl-letter-type.letter { border-color: var(--letter-a); color: var(--letter-a); }
   .pl-letter-type.question { border-color: var(--question-a); color: var(--question-a); }
 
-  .pl-letter-text { font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
+  .pl-letter-text { font-family: 'Eulyoo1945', serif; font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; text-align: left; }
   .pl-letter-sig { font-size: 0.85rem; font-weight: 700; text-align: right; color: var(--letter-b); }
 
   .pl-delete-btn {
