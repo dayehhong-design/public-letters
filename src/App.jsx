@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "./supabase";
 
 const ADMIN_PASSWORD = "NPSCA2026!";
-
 const ROTATIONS = [-1.5, 2, -2.5, 1.2, -0.8, 1.8, -1.2, 2.3, -0.5, 1.5];
 
 function formatDate(iso) {
@@ -17,11 +16,16 @@ const styles = `
   :root {
     --bg-green: #BDD3A8;
     --bg-cream: #FFFEF0;
-    --bg-blue: #D6E4F0;
     --brand-dark: #2E2D2B;
-    --airmail-red: #E63946;
-    --airmail-blue: #1D3557;
     --line: 2px solid #2E2D2B;
+
+    /* 편지: 테라코타 × 딥 티얼 */
+    --letter-a: #B56B4D;
+    --letter-b: #2E7D7D;
+
+    /* 질문: 세이지 × 인디고 */
+    --question-a: #4B5EA6;
+    --question-b: #6B8F6B;
   }
 
   body {
@@ -39,7 +43,6 @@ const styles = `
 
   .pl-layout { display: flex; min-height: 100vh; }
 
-  /* 사이드바 */
   .pl-sidebar {
     width: 360px; flex-shrink: 0;
     border-right: var(--line); padding: 1.5rem;
@@ -50,10 +53,15 @@ const styles = `
     overflow-y: auto;
   }
 
-  /* 탭 전환 버튼 */
-  .pl-tabs {
-    display: flex; gap: 0; border: var(--line); overflow: hidden;
+  .pl-event-badge {
+    background: var(--brand-dark); color: var(--bg-cream);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    line-height: 1.5; text-align: center;
   }
+
+  .pl-tabs { display: flex; gap: 0; border: var(--line); overflow: hidden; }
   .pl-tab {
     flex: 1; padding: 0.6rem 0.5rem;
     font-family: 'Pretendard', sans-serif;
@@ -64,20 +72,10 @@ const styles = `
     line-height: 1.3; text-align: center;
   }
   .pl-tab:first-child { border-right: var(--line); }
-  .pl-tab.active-letter { background: var(--airmail-red); color: white; }
-  .pl-tab.active-question { background: var(--airmail-blue); color: white; }
+  .pl-tab.active-letter { background: var(--letter-a); color: white; }
+  .pl-tab.active-question { background: var(--question-a); color: white; }
   .pl-tab:hover:not(.active-letter):not(.active-question) { background: rgba(0,0,0,0.06); }
 
-  /* 이벤트 배너 */
-  .pl-event-badge {
-    background: var(--brand-dark); color: var(--bg-cream);
-    padding: 0.5rem 0.75rem;
-    font-size: 0.68rem; font-weight: 700;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    line-height: 1.5; text-align: center;
-  }
-
-  /* 에어메일 카드 */
   .pl-composer-card {
     width: 100%;
     background: var(--bg-cream);
@@ -89,18 +87,18 @@ const styles = `
   .pl-composer-card.letter-card {
     border-image: repeating-linear-gradient(
       -45deg,
-      var(--airmail-red), var(--airmail-red) 15px,
+      var(--letter-a), var(--letter-a) 15px,
       var(--bg-cream) 15px, var(--bg-cream) 30px,
-      var(--airmail-blue) 30px, var(--airmail-blue) 45px,
+      var(--letter-b) 30px, var(--letter-b) 45px,
       var(--bg-cream) 45px, var(--bg-cream) 60px
     ) 10;
   }
   .pl-composer-card.question-card {
     border-image: repeating-linear-gradient(
       -45deg,
-      var(--airmail-blue), var(--airmail-blue) 15px,
+      var(--question-a), var(--question-a) 15px,
       var(--bg-cream) 15px, var(--bg-cream) 30px,
-      var(--bg-green) 30px, var(--bg-green) 45px,
+      var(--question-b) 30px, var(--question-b) 45px,
       var(--bg-cream) 45px, var(--bg-cream) 60px
     ) 10;
   }
@@ -130,8 +128,8 @@ const styles = `
     font-weight: 300; pointer-events: none; user-select: none;
     animation: blink 1s step-end infinite;
   }
-  .pl-cursor.red { color: var(--airmail-red); }
-  .pl-cursor.blue { color: var(--airmail-blue); }
+  .pl-cursor.letter { color: var(--letter-a); }
+  .pl-cursor.question { color: var(--question-a); }
 
   .pl-textarea {
     width: 100%; height: 180px;
@@ -142,8 +140,8 @@ const styles = `
   }
   .pl-textarea:focus { outline: none; }
   .pl-textarea::placeholder { color: var(--brand-dark); opacity: 0.38; }
-  .pl-textarea.red-caret { caret-color: var(--airmail-red); }
-  .pl-textarea.blue-caret { caret-color: var(--airmail-blue); }
+  .pl-textarea.letter { caret-color: var(--letter-a); }
+  .pl-textarea.question { caret-color: var(--question-a); }
 
   .pl-char-count { font-size: 0.68rem; opacity: 0.35; font-weight: 600; text-align: right; }
 
@@ -165,10 +163,10 @@ const styles = `
     font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
     cursor: pointer; width: 100%; transition: all 0.1s;
   }
-  .pl-send-btn.red { background: var(--airmail-red); color: white; border-color: var(--airmail-red); }
-  .pl-send-btn.red:hover { background: transparent; color: var(--airmail-red); }
-  .pl-send-btn.blue { background: var(--airmail-blue); color: white; border-color: var(--airmail-blue); }
-  .pl-send-btn.blue:hover { background: transparent; color: var(--airmail-blue); }
+  .pl-send-btn.letter { background: var(--letter-a); color: white; border-color: var(--letter-a); }
+  .pl-send-btn.letter:hover { background: transparent; color: var(--letter-a); }
+  .pl-send-btn.question { background: var(--question-a); color: white; border-color: var(--question-a); }
+  .pl-send-btn.question:hover { background: transparent; color: var(--question-a); }
   .pl-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .pl-label {
@@ -176,7 +174,6 @@ const styles = `
     letter-spacing: 0.1em; font-weight: 700; display: block;
   }
 
-  /* 게시판 */
   .pl-bulletin {
     flex: 1; padding: 3rem 2rem;
     display: flex; flex-wrap: wrap;
@@ -199,9 +196,8 @@ const styles = `
   }
   .pl-pill:hover { background: var(--brand-dark); color: var(--bg-cream); }
   .pl-pill.active { background: var(--brand-dark); color: var(--bg-cream); }
-  .pl-pill.admin-active { background: #c0392b; color: white; border-color: #c0392b; }
+  .pl-pill.admin-active { background: var(--letter-a); color: white; border-color: var(--letter-a); }
 
-  /* 편지 카드 */
   .pl-letter-card {
     width: 300px; padding: 1.75rem;
     background: var(--bg-cream); border: var(--line);
@@ -221,8 +217,8 @@ const styles = `
     box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(0,0,0,0.2);
     z-index: 2;
   }
-  .pl-letter-card.pin-red::before { background: var(--airmail-red); }
-  .pl-letter-card.pin-blue::before { background: var(--airmail-blue); }
+  .pl-letter-card.pin-letter::before { background: var(--letter-a); }
+  .pl-letter-card.pin-question::before { background: var(--question-a); }
 
   .pl-letter-card.new-card { animation: popIn 0.4s ease; }
   @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; } }
@@ -233,20 +229,20 @@ const styles = `
     text-transform: uppercase; padding: 0.15rem 0.5rem;
     border: 1.5px solid; opacity: 0.7;
   }
-  .pl-letter-type.red { border-color: var(--airmail-red); color: var(--airmail-red); }
-  .pl-letter-type.blue { border-color: var(--airmail-blue); color: var(--airmail-blue); }
+  .pl-letter-type.letter { border-color: var(--letter-a); color: var(--letter-a); }
+  .pl-letter-type.question { border-color: var(--question-a); color: var(--question-a); }
 
   .pl-letter-text { font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; }
-  .pl-letter-sig { font-size: 0.85rem; font-weight: 700; text-align: right; }
+  .pl-letter-sig { font-size: 0.85rem; font-weight: 700; text-align: right; color: var(--letter-b); }
 
   .pl-delete-btn {
     position: absolute; top: 0.75rem; right: 0.75rem;
-    background: transparent; border: 1.5px solid #c0392b; color: #c0392b;
+    background: transparent; border: 1.5px solid var(--letter-a); color: var(--letter-a);
     font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.5rem;
     cursor: pointer; text-transform: uppercase; transition: all 0.1s;
     font-family: 'Pretendard', sans-serif;
   }
-  .pl-delete-btn:hover { background: #c0392b; color: white; }
+  .pl-delete-btn:hover { background: var(--letter-a); color: white; }
 
   .pl-admin-bar {
     width: 100%; background: var(--brand-dark); color: var(--bg-cream);
@@ -271,6 +267,7 @@ const styles = `
     padding: 0.6rem 1.4rem; font-size: 0.85rem; font-weight: 600;
     pointer-events: none; white-space: nowrap; z-index: 300;
     animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards;
+    font-family: 'Pretendard', sans-serif;
   }
   @keyframes toastIn  { from { opacity: 0; bottom: 1rem; } to { opacity: 1; bottom: 2rem; } }
   @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
@@ -292,7 +289,7 @@ const styles = `
   }
   .pl-modal-input:focus { outline: none; }
   .pl-modal-btns { display: flex; gap: 0.5rem; justify-content: flex-end; }
-  .pl-modal-error { font-size: 0.8rem; color: #c0392b; font-weight: 700; }
+  .pl-modal-error { font-size: 0.8rem; color: var(--letter-a); font-weight: 700; }
 
   .pl-empty { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
   .pl-loading { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
@@ -306,14 +303,14 @@ const styles = `
 `;
 
 export default function App() {
-  const [mode, setMode] = useState("letter"); // "letter" | "question"
+  const [mode, setMode] = useState("letter");
   const [letters, setLetters] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [letterText, setLetterText] = useState("");
   const [letterFrom, setLetterFrom] = useState("");
   const [questionText, setQuestionText] = useState("");
   const [questionFrom, setQuestionFrom] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("letter");
   const [sendingL, setSendingL] = useState(false);
   const [sendingQ, setSendingQ] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -434,15 +431,11 @@ export default function App() {
       <style>{styles}</style>
       <div className="pl-layout">
 
-        {/* 사이드바 */}
         <aside className="pl-sidebar">
-
-          {/* 이벤트 배너 */}
           <div className="pl-event-badge">
             국민연금기후행동 1주년<br />기념 토크 콘서트
           </div>
 
-          {/* 탭 전환 */}
           <div className="pl-tabs">
             <button
               className={`pl-tab ${mode === "letter" ? "active-letter" : ""}`}
@@ -456,7 +449,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* 편지 작성 */}
           {mode === "letter" && (
             <div className="pl-composer-card letter-card">
               <div className="pl-card-top">
@@ -467,9 +459,9 @@ export default function App() {
                 <div className="pl-postmark">KOREA<br />POST</div>
               </div>
               <div className="pl-textarea-wrap">
-                {!letterText && !focusedL && <span className="pl-cursor red">|</span>}
+                {!letterText && !focusedL && <span className="pl-cursor letter">|</span>}
                 <textarea
-                  className="pl-textarea red-caret"
+                  className="pl-textarea letter"
                   placeholder="당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다."
                   value={letterText}
                   onChange={e => setLetterText(e.target.value)}
@@ -482,14 +474,13 @@ export default function App() {
               <div className="pl-card-bottom">
                 <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
                   value={letterFrom} onChange={e => setLetterFrom(e.target.value)} />
-                <button className="pl-send-btn red" onClick={handleSendLetter} disabled={sendingL}>
+                <button className="pl-send-btn letter" onClick={handleSendLetter} disabled={sendingL}>
                   {sendingL ? "전송 중..." : "편지 보내기"}
                 </button>
               </div>
             </div>
           )}
 
-          {/* 질문 작성 */}
           {mode === "question" && (
             <div className="pl-composer-card question-card">
               <div className="pl-card-top">
@@ -497,12 +488,12 @@ export default function App() {
                   <span className="pl-label">To. 패널</span>
                   <h2>질문하기</h2>
                 </div>
-                <div className="pl-postmark" style={{ borderColor: "var(--airmail-blue)" }}>LIVE<br />Q&A</div>
+                <div className="pl-postmark" style={{ borderColor: "var(--question-b)", color: "var(--question-b)" }}>LIVE<br />Q&A</div>
               </div>
               <div className="pl-textarea-wrap">
-                {!questionText && !focusedQ && <span className="pl-cursor blue">|</span>}
+                {!questionText && !focusedQ && <span className="pl-cursor question">|</span>}
                 <textarea
-                  className="pl-textarea blue-caret"
+                  className="pl-textarea question"
                   placeholder="패널에게 묻고 싶은 것을 자유롭게 적어주세요. 토크 중에 선정된 질문을 함께 나눕니다."
                   value={questionText}
                   onChange={e => setQuestionText(e.target.value)}
@@ -515,7 +506,7 @@ export default function App() {
               <div className="pl-card-bottom">
                 <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
                   value={questionFrom} onChange={e => setQuestionFrom(e.target.value)} />
-                <button className="pl-send-btn blue" onClick={handleSendQuestion} disabled={sendingQ}>
+                <button className="pl-send-btn question" onClick={handleSendQuestion} disabled={sendingQ}>
                   {sendingQ ? "등록 중..." : "질문 올리기"}
                 </button>
               </div>
@@ -523,18 +514,13 @@ export default function App() {
           )}
         </aside>
 
-        {/* 게시판 */}
         <main className="pl-bulletin">
           {isAdmin && (
             <div className="pl-admin-bar">
               <span>관리자 모드</span>
               <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                <button className="pl-admin-btn csv" onClick={() => exportCSV(letters, `letters-${new Date().toISOString().slice(0,10)}.csv`)}>
-                  편지 CSV ({letters.length})
-                </button>
-                <button className="pl-admin-btn csv" onClick={() => exportCSV(questions, `questions-${new Date().toISOString().slice(0,10)}.csv`)}>
-                  질문 CSV ({questions.length})
-                </button>
+                <button className="pl-admin-btn csv" onClick={() => exportCSV(letters, `letters-${new Date().toISOString().slice(0,10)}.csv`)}>편지 CSV ({letters.length})</button>
+                <button className="pl-admin-btn csv" onClick={() => exportCSV(questions, `questions-${new Date().toISOString().slice(0,10)}.csv`)}>질문 CSV ({questions.length})</button>
                 <button className="pl-admin-btn exit" onClick={() => { setIsAdmin(false); showToast("관리자 모드 종료"); }}>종료</button>
               </div>
             </div>
@@ -570,7 +556,7 @@ export default function App() {
             displayed.map((item, i) => (
               <article
                 key={item.id}
-                className={`pl-letter-card ${item._type === "letter" ? "pin-red" : "pin-blue"} ${item.id === newId ? "new-card" : ""}`}
+                className={`pl-letter-card ${item._type === "letter" ? "pin-letter" : "pin-question"} ${item.id === newId ? "new-card" : ""}`}
                 style={{ transform: `rotate(${ROTATIONS[i % ROTATIONS.length]}deg)` }}
               >
                 {isAdmin && (
@@ -581,7 +567,7 @@ export default function App() {
                 )}
                 <div className="pl-letter-meta">
                   <span className="pl-label">{formatDate(item.created_at)}</span>
-                  <span className={`pl-letter-type ${item._type === "letter" ? "red" : "blue"}`}>
+                  <span className={`pl-letter-type ${item._type}`}>
                     {item._type === "letter" ? "편지" : "질문"}
                   </span>
                 </div>
