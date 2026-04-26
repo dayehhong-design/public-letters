@@ -33,9 +33,10 @@ const styles = `
     body { overflow: hidden; }
     .pl-root { display: flex; height: 100vh; overflow: hidden; }
     .pl-left {
-      flex: 1; border-right: var(--line); padding: 2rem 2.5rem;
-      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
-    }
+  flex: 1; border-right: var(--line); padding: 2rem 2.5rem;
+  display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+  align-items: flex-start;
+}
     .pl-right {
       flex: 1; overflow-y: auto; background: var(--bg-green);
       display: flex; flex-direction: column;
@@ -54,10 +55,11 @@ const styles = `
     body { overflow-x: hidden; }
     .pl-root { display: flex; flex-direction: column; }
     .pl-left {
-      padding: 1.5rem 1.25rem 1.25rem;
-      border-bottom: var(--line);
-      display: flex; flex-direction: column;
-    }
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-bottom: var(--line);
+  display: flex; flex-direction: column;
+  align-items: flex-start;
+}
     .pl-right { background: var(--bg-green); display: flex; flex-direction: column; }
     .pl-logo { font-size: 2.4rem; line-height: 1; }
     .pl-recipient-title { font-size: 2.6rem; }
