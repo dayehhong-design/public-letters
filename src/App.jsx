@@ -44,29 +44,18 @@ const styles = `
 
   .pl-layout { display: flex; min-height: 100vh; }
 
-  /* 데스크탑 사이드바 */
   .pl-sidebar {
+    width: 360px;
     flex-shrink: 0;
     border-right: var(--line);
+    padding: 1.5rem;
     display: flex; flex-direction: column;
     gap: 1rem;
     position: sticky; top: 0; height: 100vh;
     background: rgba(189,211,168,0.3);
     overflow-y: auto;
     overflow-x: hidden;
-    transition: width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
   }
-
-  /* 닫기 버튼 — 데스크탑에서만 표시 */
-  .pl-sidebar-toggle {
-    align-self: flex-end;
-    background: transparent; border: none;
-    cursor: pointer; font-size: 1.1rem; font-weight: 700;
-    color: var(--brand-dark); opacity: 0.45;
-    padding: 0.2rem 0.4rem; flex-shrink: 0;
-    white-space: nowrap;
-  }
-  .pl-sidebar-toggle:hover { opacity: 0.8; }
 
   .pl-event-badge {
     color: var(--brand-dark);
@@ -319,16 +308,10 @@ const styles = `
   .pl-empty { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
   .pl-loading { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
 
-  /* 모바일: 사이드바 숨김, 게시판만 표시 */
   @media (max-width: 767px) {
     .pl-sidebar { display: none; }
     .pl-bulletin { padding: 1.5rem 1rem; gap: 2rem; }
     .pl-letter-card { width: 280px; }
-  }
-
-  /* 창이 작을 때 토글 버튼 숨김 */
-  @media (max-width: 900px) {
-    .pl-sidebar-toggle { display: none; }
   }
 `;
 
@@ -456,112 +439,100 @@ export default function App() {
     return allItems;
   })();
 
-  const sidebarWidth = sidebarOpen ? "360px" : "44px";
-  const sidebarPadding = sidebarOpen ? "1.5rem" : "0.75rem 0.5rem";
-
   return (
     <>
       <style>{styles}</style>
       <div className="pl-layout">
 
-        {/* 사이드바 */}
         <aside className="pl-sidebar">
+          <div className="pl-event-badge">
+            국민연금, 기후에 답하라
+          </div>
 
-          {/* 토글 버튼 — 900px 이상에서만 보임 */}
-          
+          <div className="pl-tabs">
+            <button
+              className={`pl-tab ${mode === "letter" ? "active-letter" : ""}`}
+              onClick={() => { setMode("letter"); setFilter("letter"); }}>
+              국민연금에게<br />편지 쓰기
+            </button>
+            <button
+              className={`pl-tab ${mode === "question" ? "active-question" : ""}`}
+              onClick={() => { setMode("question"); setFilter("question"); }}>
+              패널에게<br />질문하기
+            </button>
+          </div>
 
-          {/* 사이드바 열렸을 때만 내용 표시 */}
-            <>
-              <div className="pl-event-badge">
-                국민연금, 기후에 답하라
-              </div>
-
-              <div className="pl-tabs">
-                <button
-                  className={`pl-tab ${mode === "letter" ? "active-letter" : ""}`}
-                  onClick={() => { setMode("letter"); setFilter("letter"); }}>
-                  국민연금에게<br />편지 쓰기
-                </button>
-                <button
-                  className={`pl-tab ${mode === "question" ? "active-question" : ""}`}
-                  onClick={() => { setMode("question"); setFilter("question"); }}>
-                  패널에게<br />질문하기
-                </button>
-              </div>
-
-              {mode === "letter" && (
-                <div className="pl-composer-card letter-card">
-                  <div className="pl-card-top">
-                    <div style={{ textAlign: "left" }}>
-                      <span className="pl-label">To</span>
-                      <h2>국민연금</h2>
-                    </div>
-                    <div className="pl-postmark">KOREA<br />POST</div>
-                  </div>
-                  <div className="pl-textarea-wrap">
-                    {!letterText && !focusedL && <span className="pl-cursor letter">|</span>}
-                    <textarea
-                      className="pl-textarea letter"
-                      placeholder="당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다."
-                      value={letterText}
-                      onChange={e => setLetterText(e.target.value)}
-                      onFocus={() => setFocusedL(true)}
-                      onBlur={() => setFocusedL(false)}
-                      spellCheck={false}
-                    />
-                  </div>
-                  <div className="pl-char-count">{letterText.length} 자</div>
-                  <div className="pl-card-bottom">
-                    <span className="pl-label">From</span>
-                    <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
-                      value={letterFrom} onChange={e => setLetterFrom(e.target.value)} />
-                    <button className="pl-send-btn letter" onClick={handleSendLetter} disabled={sendingL}>
-                      {sendingL ? "전송 중..." : "편지 보내기"}
-                    </button>
-                  </div>
+          {mode === "letter" && (
+            <div className="pl-composer-card letter-card">
+              <div className="pl-card-top">
+                <div style={{ textAlign: "left" }}>
+                  <span className="pl-label">To</span>
+                  <h2>국민연금</h2>
                 </div>
-              )}
-
-              {mode === "question" && (
-                <div className="pl-composer-card question-card">
-                  <div className="pl-card-top">
-                    <div style={{ textAlign: "left" }}>
-                      <span className="pl-label">To. 패널</span>
-                      <h2>질문하기</h2>
-                    </div>
-                    <div className="pl-postmark" style={{ borderColor: "var(--question-b)", color: "var(--question-b)" }}>LIVE<br />Q&A</div>
-                  </div>
-                  <div className="pl-textarea-wrap">
-                    {!questionText && !focusedQ && <span className="pl-cursor question">|</span>}
-                    <textarea
-                      className="pl-textarea question"
-                      placeholder="패널에게 묻고 싶은 것을 자유롭게 적어주세요. 토크 중에 선정된 질문을 함께 나눕니다."
-                      value={questionText}
-                      onChange={e => setQuestionText(e.target.value)}
-                      onFocus={() => setFocusedQ(true)}
-                      onBlur={() => setFocusedQ(false)}
-                      spellCheck={false}
-                    />
-                  </div>
-                  <div className="pl-char-count">{questionText.length} 자</div>
-                  <div className="pl-card-bottom">
-                    <span className="pl-label">From</span>
-                    <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
-                      value={questionFrom} onChange={e => setQuestionFrom(e.target.value)} />
-                    <button className="pl-send-btn question" onClick={handleSendQuestion} disabled={sendingQ}>
-                      {sendingQ ? "등록 중..." : "질문 올리기"}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              <div className="pl-sidebar-footer">
-                국민연금기후행동 1주년 기념 토크 콘서트
+                <div className="pl-postmark">KOREA<br />POST</div>
               </div>
-            </>
+              <div className="pl-textarea-wrap">
+                {!letterText && !focusedL && <span className="pl-cursor letter">|</span>}
+                <textarea
+                  className="pl-textarea letter"
+                  placeholder="당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다."
+                  value={letterText}
+                  onChange={e => setLetterText(e.target.value)}
+                  onFocus={() => setFocusedL(true)}
+                  onBlur={() => setFocusedL(false)}
+                  spellCheck={false}
+                />
+              </div>
+              <div className="pl-char-count">{letterText.length} 자</div>
+              <div className="pl-card-bottom">
+                <span className="pl-label">From</span>
+                <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
+                  value={letterFrom} onChange={e => setLetterFrom(e.target.value)} />
+                <button className="pl-send-btn letter" onClick={handleSendLetter} disabled={sendingL}>
+                  {sendingL ? "전송 중..." : "편지 보내기"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {mode === "question" && (
+            <div className="pl-composer-card question-card">
+              <div className="pl-card-top">
+                <div style={{ textAlign: "left" }}>
+                  <span className="pl-label">To. 패널</span>
+                  <h2>질문하기</h2>
+                </div>
+                <div className="pl-postmark" style={{ borderColor: "var(--question-b)", color: "var(--question-b)" }}>LIVE<br />Q&A</div>
+              </div>
+              <div className="pl-textarea-wrap">
+                {!questionText && !focusedQ && <span className="pl-cursor question">|</span>}
+                <textarea
+                  className="pl-textarea question"
+                  placeholder="패널에게 묻고 싶은 것을 자유롭게 적어주세요. 토크 중에 선정된 질문을 함께 나눕니다."
+                  value={questionText}
+                  onChange={e => setQuestionText(e.target.value)}
+                  onFocus={() => setFocusedQ(true)}
+                  onBlur={() => setFocusedQ(false)}
+                  spellCheck={false}
+                />
+              </div>
+              <div className="pl-char-count">{questionText.length} 자</div>
+              <div className="pl-card-bottom">
+                <span className="pl-label">From</span>
+                <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
+                  value={questionFrom} onChange={e => setQuestionFrom(e.target.value)} />
+                <button className="pl-send-btn question" onClick={handleSendQuestion} disabled={sendingQ}>
+                  {sendingQ ? "등록 중..." : "질문 올리기"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="pl-sidebar-footer">
+            국민연금기후행동 1주년 기념 토크 콘서트
+          </div>
         </aside>
 
-        {/* 게시판 */}
         <main className="pl-bulletin">
           {isAdmin && (
             <div className="pl-admin-bar">
