@@ -61,7 +61,7 @@ const styles = `
   .pl-event-badge {
   background: var(--brand-dark); color: var(--bg-cream);
   padding: 0.5rem 0.75rem;
-  font-size: 0.68rem; font-weight: 700;
+  font-size: 0.85rem; font-weight: 700;
   letter-spacing: 0.06em; text-transform: uppercase;
   line-height: 1.5; text-align: center;
 }
@@ -438,7 +438,7 @@ export default function App() {
 
         <aside className="pl-sidebar">
           <div className="pl-event-badge">
-            국민연금기후행동 1주년<br />기념 토크 콘서트
+            국민연금, 기후에 답하라
           </div>
 
           <div className="pl-tabs">
@@ -517,6 +517,18 @@ export default function App() {
               </div>
             </div>
           )}
+          <div style={{
+          marginTop: "auto",
+          paddingTop: "1.5rem",
+          fontSize: "0.72rem",
+          fontWeight: "700",
+          letterSpacing: "0.04em",
+          opacity: 0.45,
+          textAlign: "center",
+          lineHeight: "1.6"
+        }}>
+          국민연금기후행동 1주년 기념 토크 콘서트
+        </div>
         </aside>
 
         <main className="pl-bulletin">
