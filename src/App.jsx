@@ -115,14 +115,6 @@ const styles = `
     font-size: 1.9rem; font-weight: 900;
     line-height: 1; letter-spacing: -0.02em;
   }
-  .pl-postmark {
-    width: 50px; height: 50px;
-    border: 2px solid var(--brand-dark); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0.6; text-align: center;
-    font-size: 0.32rem; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.4;
-  }
 
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   .pl-textarea-wrap { position: relative; }
@@ -308,10 +300,20 @@ const styles = `
   .pl-empty { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
   .pl-loading { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
 
+  /* 모바일: 사이드바 위, 게시판 아래 */
   @media (max-width: 767px) {
-    .pl-sidebar { display: none; }
+    .pl-layout { flex-direction: column; }
+    .pl-sidebar {
+      width: 100% !important;
+      height: auto;
+      position: static;
+      border-right: none;
+      border-bottom: var(--line);
+      padding: 1.25rem;
+    }
     .pl-bulletin { padding: 1.5rem 1rem; gap: 2rem; }
     .pl-letter-card { width: 280px; }
+    .pl-sidebar-footer { margin-top: 1rem; }
   }
 `;
 
@@ -439,6 +441,33 @@ export default function App() {
     return allItems;
   })();
 
+  const LetterStamp = () => (
+    <div style={{ transform: "rotate(-8deg)", opacity: 0.8, flexShrink: 0 }}>
+      <svg width="130" height="55" viewBox="0 0 130 55" overflow="visible">
+        <circle cx="27" cy="27" r="24" fill="none" stroke="var(--letter-a)" strokeWidth="2"/>
+        <circle cx="27" cy="27" r="18" fill="none" stroke="var(--letter-a)" strokeWidth="1"/>
+        <text x="27" y="31" textAnchor="middle" fontSize="9" fontWeight="900" fill="var(--letter-a)" fontFamily="Pretendard" letterSpacing="2">KOREA POST</text>
+        <path d="M52,14 Q57,10 62,14 T72,14 T82,14 T92,14 T102,14 T112,14" fill="none" stroke="var(--letter-a)" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M52,22 Q57,18 62,22 T72,22 T82,22 T92,22 T102,22 T112,22" fill="none" stroke="var(--letter-a)" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M52,30 Q57,26 62,30 T72,30 T82,30 T92,30 T102,30 T112,30" fill="none" stroke="var(--letter-a)" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    </div>
+  );
+
+  const QuestionStamp = () => (
+    <div style={{ transform: "rotate(-8deg)", opacity: 0.8, flexShrink: 0 }}>
+      <svg width="130" height="55" viewBox="0 0 130 55" overflow="visible">
+        <circle cx="27" cy="27" r="24" fill="none" stroke="var(--question-a)" strokeWidth="2"/>
+        <circle cx="27" cy="27" r="18" fill="none" stroke="var(--question-a)" strokeWidth="1"/>
+        <text x="27" y="24" textAnchor="middle" fontSize="9" fontWeight="900" fill="var(--question-a)" fontFamily="Pretendard" letterSpacing="2">SESSION</text>
+        <text x="27" y="35" textAnchor="middle" fontSize="9" fontWeight="900" fill="var(--question-a)" fontFamily="Pretendard" letterSpacing="2">Q &amp; A</text>
+        <path d="M52,14 Q57,10 62,14 T72,14 T82,14 T92,14 T102,14 T112,14" fill="none" stroke="var(--question-a)" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M52,22 Q57,18 62,22 T72,22 T82,22 T92,22 T102,22 T112,22" fill="none" stroke="var(--question-a)" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M52,30 Q57,26 62,30 T72,30 T82,30 T92,30 T102,30 T112,30" fill="none" stroke="var(--question-a)" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    </div>
+  );
+
   return (
     <>
       <style>{styles}</style>
@@ -469,7 +498,7 @@ export default function App() {
                   <span className="pl-label">To</span>
                   <h2>국민연금</h2>
                 </div>
-                <div className="pl-postmark">KOREA<br />POST</div>
+                <LetterStamp />
               </div>
               <div className="pl-textarea-wrap">
                 {!letterText && !focusedL && <span className="pl-cursor letter">|</span>}
@@ -502,7 +531,7 @@ export default function App() {
                   <span className="pl-label">To. 패널</span>
                   <h2>질문하기</h2>
                 </div>
-                <div className="pl-postmark" style={{ borderColor: "var(--question-b)", color: "var(--question-b)" }}>LIVE<br />Q&A</div>
+                <QuestionStamp />
               </div>
               <div className="pl-textarea-wrap">
                 {!questionText && !focusedQ && <span className="pl-cursor question">|</span>}
