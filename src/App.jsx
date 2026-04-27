@@ -352,7 +352,6 @@ export default function App() {
   const [pwError, setPwError] = useState(false);
   const [focusedL, setFocusedL] = useState(false);
   const [focusedQ, setFocusedQ] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const toastTimer = useRef(null);
 
   useEffect(() => { fetchAll(); }, []);
@@ -466,19 +465,12 @@ export default function App() {
       <div className="pl-layout">
 
         {/* 사이드바 */}
-        <aside className="pl-sidebar" style={{ width: sidebarWidth, minWidth: sidebarWidth, padding: sidebarPadding }}>
+        <aside className="pl-sidebar">
 
           {/* 토글 버튼 — 900px 이상에서만 보임 */}
-          <button
-            className="pl-sidebar-toggle"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            style={{ alignSelf: sidebarOpen ? "flex-end" : "center" }}
-          >
-            {sidebarOpen ? "←" : "→"}
-          </button>
+          
 
           {/* 사이드바 열렸을 때만 내용 표시 */}
-          {sidebarOpen && (
             <>
               <div className="pl-event-badge">
                 국민연금, 기후에 답하라
@@ -567,7 +559,6 @@ export default function App() {
                 국민연금기후행동 1주년 기념 토크 콘서트
               </div>
             </>
-          )}
         </aside>
 
         {/* 게시판 */}
