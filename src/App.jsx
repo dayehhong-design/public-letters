@@ -573,7 +573,7 @@ export default function App() {
                 {!letterText && !focusedL && <span className="pl-cursor letter">|</span>}
                 <textarea
                   className="pl-textarea letter"
-                  placeholder="국민연금에게 전할 당신의 이야기를 적어주세요. 국민연금에 대한 생각, 우려, 혹은 제안. 당신의 목소리가 전달됩니다."
+                  placeholder="국민연금에 대한 생각, 우려, 혹은 제안.. 국민연금에게 전할 당신의 이야기를 적어주세요."
                   value={letterText}
                   onChange={e => setLetterText(e.target.value)}
                   onFocus={() => setFocusedL(true)}
