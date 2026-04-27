@@ -384,7 +384,7 @@ const styles = `
 const LetterStamp = () => (
   <div className="postal-stamp-container" style={{ color: "var(--letter-a)" }}>
     <div className="oval-stamp">
-      <span className="stamp-main">SESSION<br />Q&A</span>
+      <span className="stamp-main">KOREA<br />POST</span>
     </div>
     <div className="wavy-lines">
       <svg viewBox="0 0 100 40" preserveAspectRatio="none" stroke="var(--letter-a)">
