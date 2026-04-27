@@ -49,14 +49,14 @@ const styles = `
   .pl-layout { display: flex; min-height: 100vh; }
 
   .pl-sidebar {
-    width: 360px; flex-shrink: 0;
-    border-right: var(--line); padding: 1.5rem;
-    display: flex; flex-direction: column;
-    gap: 1rem;
-    position: sticky; top: 0; height: 100vh;
-    background: rgba(189,211,168,0.3);
-    overflow-y: auto;
-  }
+  flex-shrink: 0;
+  border-right: var(--line); padding: 1.5rem;
+  display: flex; flex-direction: column;
+  gap: 1rem;
+  position: sticky; top: 0; height: 100vh;
+  background: rgba(189,211,168,0.3);
+  overflow-y: auto;
+}
 
   .pl-event-badge {
   color: var(--brand-dark);
@@ -328,6 +328,7 @@ export default function App() {
   const [pwError, setPwError] = useState(false);
   const [focusedL, setFocusedL] = useState(false);
   const [focusedQ, setFocusedQ] = useState(false);
+const [sidebarOpen, setSidebarOpen] = useState(true);
   const toastTimer = useRef(null);
 
   useEffect(() => { fetchAll(); }, []);
@@ -437,7 +438,17 @@ export default function App() {
       <style>{styles}</style>
       <div className="pl-layout">
 
-        <aside className="pl-sidebar">
+        <aside className="pl-sidebar" style={{ width: sidebarOpen ? "360px" : "44px", minWidth: sidebarOpen ? "360px" : "44px", transition: "width 0.3s ease", overflow: "hidden", padding: sidebarOpen ? "1.5rem" : "0.75rem 0.5rem" }}>
+  <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{
+  alignSelf: sidebarOpen ? "flex-end" : "center",
+  background: "transparent", border: "none",
+  cursor: "pointer", fontSize: "1.1rem", fontWeight: "700",
+  color: "var(--brand-dark)", opacity: 0.5, padding: "0.2rem 0.4rem",
+  flexShrink: 0, whiteSpace: "nowrap"
+}}>
+  {sidebarOpen ? "←" : "→"}
+</button>
+{sidebarOpen && <>
           <div className="pl-event-badge">
             국민연금, 기후에 답하라
           </div>
@@ -532,6 +543,7 @@ export default function App() {
         }}>
           국민연금기후행동 1주년 기념 토크 콘서트
         </div>
+        </>}
         </aside>
 
         <main className="pl-bulletin">
