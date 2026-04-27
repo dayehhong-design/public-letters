@@ -175,9 +175,10 @@ const styles = `
   .pl-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .pl-label {
-    font-size: 0.7rem; text-transform: uppercase;
-    letter-spacing: 0.1em; font-weight: 700; display: block;
-  }
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.1em; font-weight: 700; display: block;
+  text-align: left;
+}
 
   .pl-bulletin {
     flex: 1; padding: 3rem 2rem;
