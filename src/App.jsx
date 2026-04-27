@@ -627,8 +627,11 @@ export default function App() {
           )}
 
           <div className="pl-sidebar-footer">
-            국민연금기후행동 1주년 기념 토크 콘서트
-          </div>
+  국민연금기후행동 1주년 기념 토크 콘서트
+  <div style={{ marginTop: "0.5rem", fontSize: "0.65rem", opacity: 0.6 }}>
+    © 2026 국민연금기후행동
+  </div>
+</div>
         </aside>
 
         <main className="pl-bulletin">
