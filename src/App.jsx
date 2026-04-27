@@ -400,8 +400,7 @@ const LetterStamp = () => (
 const QuestionStamp = () => (
   <div className="postal-stamp-container" style={{ color: "var(--question-a)" }}>
     <div className="oval-stamp">
-      <span className="top-arch">SESSION Q&A</span>
-      <span className="stamp-main">KOREA<br />POST</span>
+      <span className="stamp-main">SESSION<br />Q&A</span>
     </div>
     <div className="wavy-lines">
       <svg viewBox="0 0 100 40" preserveAspectRatio="none" stroke="var(--question-a)">
