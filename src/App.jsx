@@ -116,6 +116,71 @@ const styles = `
     line-height: 1; letter-spacing: -0.02em;
   }
 
+  /* 우표 스탬프 */
+  .postal-stamp-container {
+    position: relative;
+    width: 90px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    transform: rotate(-10deg);
+    flex-shrink: 0;
+  }
+  .oval-stamp {
+    width: 80px;
+    height: 52px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-family: 'Pretendard', sans-serif;
+    overflow: visible;
+  }
+  .oval-stamp .top-arch {
+    position: absolute;
+    top: 5px;
+    font-size: 0.45rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .oval-stamp .stamp-main {
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.3;
+    padding: 1px 4px;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+  }
+  .oval-stamp .bottom-arch {
+    position: absolute;
+    bottom: 5px;
+    font-size: 0.38rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .wavy-lines {
+    position: absolute;
+    right: -38px;
+    top: 10px;
+    width: 42px;
+    height: 36px;
+    pointer-events: none;
+  }
+  .wavy-lines svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   .pl-textarea-wrap { position: relative; }
   .pl-cursor {
@@ -300,7 +365,6 @@ const styles = `
   .pl-empty { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
   .pl-loading { color: var(--brand-dark); opacity: 0.5; font-size: 0.95rem; text-align: center; padding: 4rem 0; width: 100%; }
 
-  /* 모바일: 사이드바 위, 게시판 아래 */
   @media (max-width: 767px) {
     .pl-layout { flex-direction: column; }
     .pl-sidebar {
@@ -316,6 +380,40 @@ const styles = `
     .pl-sidebar-footer { margin-top: 1rem; }
   }
 `;
+
+const LetterStamp = () => (
+  <div className="postal-stamp-container" style={{ color: "var(--letter-a)" }}>
+    <div className="oval-stamp">
+      <span className="top-arch">KOREA POST</span>
+      <span className="stamp-main">KOREA<br />POST</span>
+    </div>
+    <div className="wavy-lines">
+      <svg viewBox="0 0 100 40" preserveAspectRatio="none" stroke="var(--letter-a)">
+        <path d="M0 5 Q 12.5 0, 25 5 T 50 5 T 75 5 T 100 5"/>
+        <path d="M0 15 Q 12.5 10, 25 15 T 50 15 T 75 15 T 100 15"/>
+        <path d="M0 25 Q 12.5 20, 25 25 T 50 25 T 75 25 T 100 25"/>
+        <path d="M0 35 Q 12.5 30, 25 35 T 50 35 T 75 35 T 100 35"/>
+      </svg>
+    </div>
+  </div>
+);
+
+const QuestionStamp = () => (
+  <div className="postal-stamp-container" style={{ color: "var(--question-a)" }}>
+    <div className="oval-stamp">
+      <span className="top-arch">SESSION Q&A</span>
+      <span className="stamp-main">SESSION<br />Q&A</span>
+    </div>
+    <div className="wavy-lines">
+      <svg viewBox="0 0 100 40" preserveAspectRatio="none" stroke="var(--question-a)">
+        <path d="M0 5 Q 12.5 0, 25 5 T 50 5 T 75 5 T 100 5"/>
+        <path d="M0 15 Q 12.5 10, 25 15 T 50 15 T 75 15 T 100 15"/>
+        <path d="M0 25 Q 12.5 20, 25 25 T 50 25 T 75 25 T 100 25"/>
+        <path d="M0 35 Q 12.5 30, 25 35 T 50 35 T 75 35 T 100 35"/>
+      </svg>
+    </div>
+  </div>
+);
 
 export default function App() {
   const [mode, setMode] = useState("letter");
@@ -440,33 +538,6 @@ export default function App() {
     if (filter === "today") return allItems.filter(i => new Date(i.created_at).toDateString() === today);
     return allItems;
   })();
-
-  const LetterStamp = () => (
-    <div style={{ transform: "rotate(-8deg)", opacity: 0.8, flexShrink: 0 }}>
-      <svg width="130" height="55" viewBox="0 0 130 55" overflow="visible">
-        <circle cx="27" cy="27" r="24" fill="none" stroke="var(--letter-a)" strokeWidth="2"/>
-        <circle cx="27" cy="27" r="18" fill="none" stroke="var(--letter-a)" strokeWidth="1"/>
-        <text x="27" y="31" textAnchor="middle" fontSize="9" fontWeight="900" fill="var(--letter-a)" fontFamily="Pretendard" letterSpacing="2">KOREA POST</text>
-        <path d="M52,14 Q57,10 62,14 T72,14 T82,14 T92,14 T102,14 T112,14" fill="none" stroke="var(--letter-a)" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M52,22 Q57,18 62,22 T72,22 T82,22 T92,22 T102,22 T112,22" fill="none" stroke="var(--letter-a)" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M52,30 Q57,26 62,30 T72,30 T82,30 T92,30 T102,30 T112,30" fill="none" stroke="var(--letter-a)" strokeWidth="1.5" strokeLinecap="round"/>
-      </svg>
-    </div>
-  );
-
-  const QuestionStamp = () => (
-    <div style={{ transform: "rotate(-8deg)", opacity: 0.8, flexShrink: 0 }}>
-      <svg width="130" height="55" viewBox="0 0 130 55" overflow="visible">
-        <circle cx="27" cy="27" r="24" fill="none" stroke="var(--question-a)" strokeWidth="2"/>
-        <circle cx="27" cy="27" r="18" fill="none" stroke="var(--question-a)" strokeWidth="1"/>
-        <text x="27" y="24" textAnchor="middle" fontSize="9" fontWeight="900" fill="var(--question-a)" fontFamily="Pretendard" letterSpacing="2">SESSION</text>
-        <text x="27" y="35" textAnchor="middle" fontSize="9" fontWeight="900" fill="var(--question-a)" fontFamily="Pretendard" letterSpacing="2">Q &amp; A</text>
-        <path d="M52,14 Q57,10 62,14 T72,14 T82,14 T92,14 T102,14 T112,14" fill="none" stroke="var(--question-a)" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M52,22 Q57,18 62,22 T72,22 T82,22 T92,22 T102,22 T112,22" fill="none" stroke="var(--question-a)" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M52,30 Q57,26 62,30 T72,30 T82,30 T92,30 T102,30 T112,30" fill="none" stroke="var(--question-a)" strokeWidth="1.5" strokeLinecap="round"/>
-      </svg>
-    </div>
-  );
 
   return (
     <>
