@@ -477,8 +477,9 @@ export default function App() {
               </div>
               <div className="pl-char-count">{letterText.length} 자</div>
               <div className="pl-card-bottom">
-                <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
-                  value={letterFrom} onChange={e => setLetterFrom(e.target.value)} />
+                <span className="pl-label">From</span>
+<input type="text" className="pl-input-line" placeholder="이름 또는 익명"
+  value={letterFrom} onChange={e => setLetterFrom(e.target.value)} />
                 <button className="pl-send-btn letter" onClick={handleSendLetter} disabled={sendingL}>
                   {sendingL ? "전송 중..." : "편지 보내기"}
                 </button>
@@ -509,8 +510,9 @@ export default function App() {
               </div>
               <div className="pl-char-count">{questionText.length} 자</div>
               <div className="pl-card-bottom">
-                <input type="text" className="pl-input-line" placeholder="이름 또는 익명"
-                  value={questionFrom} onChange={e => setQuestionFrom(e.target.value)} />
+                <span className="pl-label">From</span>
+<input type="text" className="pl-input-line" placeholder="이름 또는 익명"
+  value={questionFrom} onChange={e => setQuestionFrom(e.target.value)} />
                 <button className="pl-send-btn question" onClick={handleSendQuestion} disabled={sendingQ}>
                   {sendingQ ? "등록 중..." : "질문 올리기"}
                 </button>
