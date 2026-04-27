@@ -59,11 +59,11 @@ const styles = `
   }
 
   .pl-event-badge {
-  background: var(--brand-dark); color: var(--bg-cream);
-  padding: 0.5rem 0.75rem;
-  font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  line-height: 1.5; text-align: center;
+  color: var(--brand-dark);
+  font-size: 1.7rem; font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1; text-align: center;
+  opacity: 1;
 }
 
   .pl-tabs { display: flex; gap: 0; border: var(--line); overflow: hidden; }
