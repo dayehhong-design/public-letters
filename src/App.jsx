@@ -268,7 +268,7 @@ const styles = `
   .pl-pill.active { background: var(--brand-dark); color: var(--bg-cream); }
   .pl-pill.active-letter-pill { background: var(--letter-a); color: white; border-color: var(--letter-a); }
   .pl-pill.active-question-pill { background: var(--question-a); color: white; border-color: var(--question-a); }
-  .pl-pill.admin-active { background: var(--letter-a); color: white; border-color: var(--letter-a); }
+  .pl-pill.admin-active { background: var(--brand-dark); color: var(--bg-cream); border-color: var(--brand-dark); }
 
   .pl-letter-card {
     width: 300px; padding: 1.75rem;
